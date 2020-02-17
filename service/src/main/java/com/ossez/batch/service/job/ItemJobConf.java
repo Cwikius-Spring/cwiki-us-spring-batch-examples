@@ -2,9 +2,9 @@ package com.ossez.batch.service.job;
 
 import com.ossez.batch.service.JobCompletionNotificationListener;
 import com.ossez.batch.service.model.User;
-import com.ossez.batch.service.steps.LineProcessor;
-import com.ossez.batch.service.steps.LineReader;
-import com.ossez.batch.service.steps.LinesWriter;
+import com.ossez.batch.service.step.LineProcessor;
+import com.ossez.batch.service.step.LineReader;
+import com.ossez.batch.service.step.LinesWriter;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
