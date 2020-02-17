@@ -41,8 +41,8 @@ public class Application implements CommandLineRunner {
             System.out.println(arg);
         }
 
-        JobParameters jobParameters =
-                new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis())).toJobParameters();
-        jobLauncher.run(cloudClean, jobParameters);
+//        JobParameters jobParameters =
+//                new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis())).toJobParameters();
+//        jobLauncher.run(cloudClean, jobParameters);
     }
 }
