@@ -1,16 +1,12 @@
 package com.ossez.batch.service.job;
 
 import com.ossez.batch.service.JobCompletionNotificationListener;
-import com.ossez.batch.service.model.User;
 import com.ossez.batch.service.tasklet.FileTasklet;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,24 +20,22 @@ public class FileJobConf {
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
+    //--- JOB ---
     @Bean
-    public Job cloudClean(JobCompletionNotificationListener listener, Step stepAws, Step deleteFilesStep) {
+    public Job fileClean(JobCompletionNotificationListener listener, Step readFilesStep, Step deleteFilesStep) {
         return jobBuilderFactory.get("cloudClean")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
-                .flow(stepAws).next(deleteFilesStep)
+                .flow(readFilesStep).next(deleteFilesStep)
                 .end()
                 .build();
     }
 
+    //--- STEP ---
     @Bean
-    public Step stepAws(ItemReader<User> itemReader, ItemProcessor<User, User> itemProcessor, ItemWriter<User> awsWriter) {
-        return stepBuilderFactory.get("step1")
-                .<User, User>chunk(100)
-                .reader(itemReader)
-                .processor(itemProcessor)
-                .writer(awsWriter)
-                .build();
+    public Step readFilesStep(StepBuilderFactory stepBuilders) {
+        return stepBuilders.get("readFilesStep")
+                .tasklet(fileReadTasklet()).build();
     }
 
     @Bean
@@ -50,11 +44,16 @@ public class FileJobConf {
                 .tasklet(fileDeletingTasklet()).build();
     }
 
+    //--- TASKLET ---
+    @Bean
+    public FileTasklet fileReadTasklet() {
+        return new FileTasklet(
+                new FileSystemResource("target/test-inputs"));
+    }
 
     @Bean
     public FileTasklet fileDeletingTasklet() {
         return new FileTasklet(
                 new FileSystemResource("target/test-inputs"));
     }
-
 }
