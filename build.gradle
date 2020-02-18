@@ -1,0 +1,76 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+
+        maven { url "https://maven.ossez.com/repository/internal" }
+
+        maven {
+            url "https://maven.ossez.com/repository/snapshots"
+            mavenContent {
+                snapshotsOnly()
+            }
+        }
+
+        mavenLocal()
+    }
+}
+
+plugins {
+    id 'maven-publish'
+    id "org.asciidoctor.convert" version "2.4.0"
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.ossez.reoc'
+version = '0.1.1'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+allprojects {
+    apply plugin: 'java'
+
+    repositories {
+        maven { url "https://maven.ossez.com/repository/internal" }
+        maven {
+            url "https://maven.ossez.com/repository/snapshots"
+            mavenContent {
+                snapshotsOnly()
+            }
+        }
+        mavenLocal()
+    }
+
+    ext {
+        environmentProperty = project.hasProperty('environment') ? getProperty('environment') : 'hsql'
+        docResourcesVersion = '0.1.0'
+    }
+
+    dependencies {
+        // TESTS
+        testImplementation 'junit:junit:4.12'
+
+    }
+}
+project('service') {
+    description = 'service'
+
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+}
+
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+
