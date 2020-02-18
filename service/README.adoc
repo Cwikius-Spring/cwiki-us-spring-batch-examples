@@ -1,0 +1,13 @@
+== REoC MLS Batch
+
+MLS Batch process
+
+
+== What you'll need
+FEEDS project to send listing data to thirty party company.
+
+mvn install:install-file -Dfile=D:\workdir\Verani-Realty\src\svn-verani\references\RETS\retsiq-core-api.jar -DgroupId=retsiq -DartifactId=core-api -Dversion=1.0 -Dpackaging=jar
+mvn install:install-file -Dfile=D:\workdir\Verani-Realty\src\svn-verani\references\RETS\retsiq-core-client.jar -DgroupId=retsiq -DartifactId=core-client -Dversion=1.0 -Dpackaging=jar
+mvn install:install-file -Dfile=D:\workdir\Verani-Realty\src\svn-verani\references\RETS\retsiq-core-metadata.jar -DgroupId=retsiq -DartifactId=core-metadata -Dversion=1.0 -Dpackaging=jar
+mvn install:install-file -Dfile=D:\workdir\Verani-Realty\src\svn-verani\references\RETS\retsiq-core-simpleclient.jar -DgroupId=retsiq -DartifactId=core-simpleclient -Dversion=1.0 -Dpackaging=jar
+mvn install:install-file -Dfile=D:\workdir\Verani-Realty\src\svn-verani\references\RETS\retsiq-core-util.jar -DgroupId=retsiq -DartifactId=core-util -Dversion=1.0 -Dpackaging=jar
